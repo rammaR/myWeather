@@ -1,0 +1,23 @@
+<div class="container-fluid">
+
+  <ng-container *ngIf="loading$ | async; else notLoading">
+    Carregando, aguarde...
+  </ng-container>
+
+  <ng-template #notLoading>
+    <ng-container *ngIf="!(error$ | async)">
+      <h1>{{ (details$ | async)?.city.name }}, {{ (details$ | async)?.city.country }}</h1>
+
+      <div class="card current-card">
+        <app-details-weater [weather]="(details$ | async).current">
+        </app-details-weater>
+      </div>
+
+      <app-daily-weather *ngFor="let daily of (details$ | async).daily" [dailyWeather]="daily">
+      </app-daily-weather>
+    </ng-container>
+
+    <div *ngIf="error$ | async">Erro</div>
+  </ng-template>
+
+</div>
