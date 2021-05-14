@@ -1,3 +1,10 @@
+export interface ContainerCityWeather {
+  cod: number,
+  calctime: number,
+  cnt: number,
+  list: CityWeather[]
+}
+
 export interface CityWeather {
   city: City;
   weather: Weather;

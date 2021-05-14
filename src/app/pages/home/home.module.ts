@@ -10,6 +10,7 @@ import { CurrentWeatherComponent } from './components/current-weather/current-we
 import { HomePage } from './containers/home/home.page';
 import { BookmarksModule } from '../bookmarks/bookmarks.module';
 import { RouterModule } from '@angular/router';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
   imports: [
@@ -18,11 +19,12 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     StoreModule.forFeature('home', HomeReducer),
     EffectsModule.forFeature([HomeEffect]),
-    BookmarksModule
+    BookmarksModule,
+    ComponentsModule
   ],
   declarations: [
     HomePage,
-    CurrentWeatherComponent
+    CurrentWeatherComponent,
   ]
 })
 export class HomeModule { }

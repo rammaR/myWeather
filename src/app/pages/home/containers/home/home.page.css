@@ -1,0 +1,21 @@
+.search-container {
+    display: block;
+    margin: 2vh 0;
+}
+
+.map-container {
+    border: 1px solid yellow;
+    width: 100%;
+    min-height: 300px;
+}
+
+.cities-container {
+    border: 1px solid red;
+    width: 100%;
+    min-height: 300px;
+}
+
+section {
+    display: flex;
+    justify-content: space-between;
+}

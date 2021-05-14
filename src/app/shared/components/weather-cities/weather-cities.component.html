@@ -1,0 +1,10 @@
+<p>
+    Lista de Cidades Encontradas
+</p>
+
+<ol>
+    <li *ngFor="let item of cities; index as i">
+        <h3>{{ item.city.name }}, {{ item.city.country }}</h3>
+        <app-details-weater [weather]="item.weather"></app-details-weater>
+    </li>
+</ol>

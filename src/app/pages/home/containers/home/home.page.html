@@ -30,4 +30,15 @@
             <a>Tentar novamente</a>
         </div>
     </div>
+
+    <section>
+        <div class="map-container" *ngIf="googleMapsReady$ | async">
+            <app-map (onSetMark)="onSetMark($event)">
+            </app-map>
+        </div>
+
+        <div class="cities-container">
+            <app-weather-cities #appCities></app-weather-cities>
+        </div>
+    </section>
 </div>

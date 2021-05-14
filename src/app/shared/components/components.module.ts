@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { FormsModule } from '@angular/forms';
 
-import { CitiesTypeaheadComponent } from './cities-typeahead/cities-typeahead.component';
+import { GoogleMapComponent } from './google-map/google-map.component';
+import { WeatherCitiesComponent } from './weather-cities/weather-cities.component';
+import { DetailsWeaterComponent } from './details-weather/details-weater/details-weater.component';
 
 @NgModule({
   declarations: [
-    CitiesTypeaheadComponent,
-    FormsModule,
-    TypeaheadModule
+    GoogleMapComponent,
+    WeatherCitiesComponent,
+    DetailsWeaterComponent
   ],
   imports: [
     CommonModule
   ],
   exports:[
-    CitiesTypeaheadComponent
+    GoogleMapComponent,
+    WeatherCitiesComponent,
+    DetailsWeaterComponent
   ]
 })
 export class ComponentsModule { }

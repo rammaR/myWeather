@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { detailsReducer } from './state/details.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { DetailsEffects } from './state/details.effects';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
   imports: [
@@ -19,11 +20,11 @@ import { DetailsEffects } from './state/details.effects';
     ]),
     StoreModule.forFeature('details', detailsReducer),
     EffectsModule.forFeature([DetailsEffects]),
+    ComponentsModule
   ],
   declarations: [
     DetailsPage,
     DailyWeatherComponent,
-    DetailsWeaterComponent
   ],  
   providers: [
     DetailsGuard

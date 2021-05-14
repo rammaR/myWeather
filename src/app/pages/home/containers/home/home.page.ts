@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Bookmark } from 'src/app/shared/models/bookmark.model';
 import { City, CityWeather } from 'src/app/shared/models/weather.model';
 import * as fromHomeActions from '../../state/home.action';
 import * as fromHomeSelectors from '../../state/home.selector';
 import * as fromBookmarkSelectors from '../../../bookmarks/state/bookmark.selector';
+import * as fromAppSelectors from '../../../../shared/state/app.selector';
+import { WeatherCitiesComponent } from 'src/app/shared/components/weather-cities/weather-cities.component';
 
 @Component({
   selector: 'app-home',
@@ -16,26 +18,29 @@ import * as fromBookmarkSelectors from '../../../bookmarks/state/bookmark.select
 })
 export class HomePage implements OnInit, OnDestroy {
 
+  @ViewChild('appCities') appCities: WeatherCitiesComponent;
   search: FormControl = new FormControl('Campinas', Validators.required);
-  cityWeatehrSubs: Subscription;
+  cityWeatherSubs: Subscription;
   cityWeather: CityWeather;
   cityWeather$: Observable<CityWeather>;
   loading$: Observable<boolean>;
   error$: Observable<boolean>;
   bookmarks$: Observable<Bookmark[]>;
   isFavorited$: Observable<boolean>;
+  googleMapsReady$: Observable<boolean>;
 
   constructor(private store: Store) {
     this.cityWeather$ = this.store.pipe(select(fromHomeSelectors.selectCurrentWeather));
     this.loading$ = this.store.pipe(select(fromHomeSelectors.selectCurrentWeatherLoading));
     this.error$ = this.store.pipe(select(fromHomeSelectors.selectCurrentWheaterError));
     this.bookmarks$ = this.store.pipe(select(fromBookmarkSelectors.selectBookmarkList))
-    this.cityWeatehrSubs = this.cityWeather$.subscribe(value => this.cityWeather = value);
+    this.cityWeatherSubs = this.cityWeather$.subscribe(value => this.cityWeather = value);
+    this.googleMapsReady$ = this.store.pipe(select(fromAppSelectors.selectGoogleMapsReady));
     this.isFavorited$ = combineLatest([this.cityWeather$, this.bookmarks$]).pipe(
       map(
         ([thisCity, bookList]) => {
           console.log('espiao');
-          
+
           return bookList.some(book => book.id === thisCity?.city?.id)
         })
     )
@@ -45,7 +50,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.cityWeatehrSubs.unsubscribe();
+    this.cityWeatherSubs.unsubscribe();
     this.store.dispatch(fromHomeActions.clearHomeState());
   }
 
@@ -67,5 +72,11 @@ export class HomePage implements OnInit, OnDestroy {
 
   get city(): City {
     return this.cityWeather.city;
+  }
+
+  onSetMark(newPoint: google.maps.LatLngLiteral) {
+    if ((newPoint.lat) && (newPoint.lng)) {
+      this.appCities.getCities(newPoint.lat, newPoint.lng);
+    }
   }
 }
