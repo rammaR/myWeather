@@ -4,15 +4,17 @@
 }
 
 .map-container {
-    border: 1px solid yellow;
-    width: 100%;
+    width: 40%;
+    height: 70vh;
     min-height: 300px;
 }
 
 .cities-container {
-    border: 1px solid red;
-    width: 100%;
+    background-color: #ddd;
+    width: 60%;
+    height: 70vh;
     min-height: 300px;
+    overflow-y: scroll;
 }
 
 section {

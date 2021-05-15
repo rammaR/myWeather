@@ -74,9 +74,9 @@ export class HomePage implements OnInit, OnDestroy {
     return this.cityWeather.city;
   }
 
-  onSetMark(newPoint: google.maps.LatLngLiteral) {
+  onSetMark(newPoint: google.maps.LatLng) {
     if ((newPoint.lat) && (newPoint.lng)) {
-      this.appCities.getCities(newPoint.lat, newPoint.lng);
+      this.appCities.getCities(newPoint.lat(), newPoint.lng());
     }
   }
 }

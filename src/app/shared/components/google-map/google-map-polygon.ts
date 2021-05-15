@@ -10,7 +10,9 @@ export class GoogleMapPolygon extends GoogleMapShape {
         let mapClick = null;
 
         this.polygonPaths = [];
-        mapClick = ($event) => { this.draw(map, $event.latLng) };
+        mapClick = ($event) => { 
+            this.draw(map, $event.latLng) 
+        };
 
         if (mapClick) {
             this.listener = map.addListener('click', mapClick);

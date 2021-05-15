@@ -27,7 +27,7 @@ export class GoogleMapComponent implements AfterViewInit {
   @Input() customDraw: CustomDraw;
   @Input() locations: google.maps.LatLng[];
   @Output() drawSaved: EventEmitter<CustomDraw> = new EventEmitter<CustomDraw>();
-  @Output() onSetMark: EventEmitter<google.maps.LatLngLiteral> = new EventEmitter<google.maps.LatLngLiteral>();
+  @Output() onSetMark: EventEmitter<google.maps.LatLng> = new EventEmitter<google.maps.LatLng>();
   //
   private _disabled: boolean = true;
   @Input()
@@ -38,6 +38,7 @@ export class GoogleMapComponent implements AfterViewInit {
     this._disabled = param;
   }
 
+  private marker: google.maps.Marker;
   private map: google.maps.Map;
   private MAP_ID: string = 'GoogleMapReference';
   private shape: GoogleMapShape;
@@ -77,15 +78,27 @@ export class GoogleMapComponent implements AfterViewInit {
       this.loadClusters();
     }
 
+    this.setClickEvent();
   }
 
-  setMark() {
-    const marker = new google.maps.Marker({
-      position: this.campinas,
+  setClickEvent() {
+    this.map.addListener("click", (e) => {
+      this.setMark(e.latLng);
+    });
+  }
+
+  setMark(latLng: google.maps.LatLng) {
+    if (this.marker) {
+      this.marker.setMap(null);
+    }
+    this.marker = new google.maps.Marker({
+      position: latLng,
       map: this.map,
     });
 
-    this.onSetMark.emit(this.campinas);
+    this.map.panTo(latLng);
+    //alert('new emitted');
+    this.onSetMark.emit(latLng);
   }
 
   private loadMarkers() {
